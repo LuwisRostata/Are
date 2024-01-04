@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:test_clima_flutter/screens/location_screen.dart';
 import 'package:test_clima_flutter/utilities/constants.dart';
 class CityScreen extends StatefulWidget {
   const CityScreen({super.key});
@@ -8,6 +9,7 @@ class CityScreen extends StatefulWidget {
 }
 
 class _CityScreenState extends State<CityScreen> {
+  String NewCity = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +27,9 @@ class _CityScreenState extends State<CityScreen> {
               Align(
                 alignment: Alignment.topLeft,
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pop(context, NewCity);
+                  },
                   child: const Icon(
                     Icons.arrow_back_ios,
                     size: 50.0,
@@ -34,10 +38,35 @@ class _CityScreenState extends State<CityScreen> {
               ),
               Container(
                 padding: const EdgeInsets.all(20.0),
-                child: null,
+                child: TextField(
+                  onChanged: (value){
+                    NewCity=value;
+                  },
+                  style : TextStyle(
+                    color: Colors.black,
+                  ),
+                    decoration: InputDecoration(
+                        filled: true,
+                      fillColor: Colors.white,
+                      icon: Icon(
+                        Icons.location_city,
+                        color: Colors.white,
+                      ),
+                      hintText: "Type your desired city",
+                      hintStyle: TextStyle(
+                        color: Colors.grey
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        borderSide: BorderSide.none
+                      )
+                )
+                ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context, NewCity);
+                },
                 child: const Text(
                   'Get Weather',
                   style: kButtonTextStyle,

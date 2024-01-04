@@ -1,16 +1,44 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:test_clima_flutter/screens/city_screen.dart';
 import 'package:test_clima_flutter/utilities/constants.dart';
+import 'package:test_clima_flutter/services/weather.dart';
 
 class LocationScreen extends StatefulWidget {
-  const LocationScreen({super.key});
-
+  LocationScreen(this.data, {super.key});
+  String data;
   @override
   State<LocationScreen> createState() => _LocationScreenState();
 }
 
 class _LocationScreenState extends State<LocationScreen> {
+  late double temp;
+  late int id;
+  late String city, desc, info='';
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    info=widget.data;
+    UpdateUI();
+  }
+
+  void UpdateUI(){
+    desc = jsonDecode(info)['weather'][0]['description'];
+    temp = jsonDecode(info)['main']['temp'];
+    id = jsonDecode(info)['weather'][0]['id'];
+    city = jsonDecode(info)['name'];
+
+    print(city);
+    print(desc);
+    print(temp);
+    print(id);
+  }
   @override
   Widget build(BuildContext context) {
+    WeatherModel WM= new WeatherModel();
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -31,14 +59,31 @@ class _LocationScreenState extends State<LocationScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                    setState(() {
+                      info=widget.data;
+                      UpdateUI();
+                    });
+                    },
                     child: const Icon(
                       Icons.near_me,
                       size: 50.0,
                     ),
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () async{
+                      String NewCity;
+                      NewCity= await Navigator.push(context as BuildContext, MaterialPageRoute(builder: (context){
+                        return CityScreen();
+                      }));
+                      Uri url1 = Uri.parse("https://api.openweathermap.org/data/2.5/weather?q=$NewCity&appid=cc5f0621c9c4796b8f0683e23d26dadf&units=metric");
+                      Response resp = await get(url1);
+                      setState(() {
+                        info= resp.body;
+                        UpdateUI();
+                      });
+                      print(NewCity);
+                    },
                     child: const Icon(
                       Icons.location_city,
                       size: 50.0,
@@ -46,27 +91,27 @@ class _LocationScreenState extends State<LocationScreen> {
                   ),
                 ],
               ),
-              const Padding(
+              Padding(
                 padding: EdgeInsets.only(left: 15.0),
                 child: Row(
                   children: <Widget>[
                     Text(
-                      '32°',
-                      style: kTempTextStyle,
+                      temp.toStringAsFixed(0) + '°',
+                      style: TextStyle(fontSize: 50),
                     ),
                     Text(
-                      '☀️',
+                      WM.getWeatherIcon(id),
                       style: kConditionTextStyle,
                     ),
                   ],
                 ),
               ),
-              const Padding(
+              Padding(
                 padding: EdgeInsets.only(right: 15.0),
                 child: Text(
-                  "It's 🍦 time in San Francisco!",
+                  WM.getMessage(temp.toInt())+" $city!",
                   textAlign: TextAlign.right,
-                  style: kMessageTextStyle,
+                    style: TextStyle(fontSize: 40),
                 ),
               ),
             ],

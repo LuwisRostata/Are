@@ -9,7 +9,6 @@ class Location{
       print(position);
       lon = position.longitude;
       lat = position.latitude;
-
     }
     catch(e){
       print(e);
