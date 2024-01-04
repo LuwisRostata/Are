@@ -19,7 +19,6 @@ class _LocationScreenState extends State<LocationScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     info=widget.data;
     UpdateUI();

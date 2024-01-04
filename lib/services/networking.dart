@@ -1,7 +1,5 @@
-
 import 'package:test_clima_flutter/services/location.dart';
 import 'package:http/http.dart';
-import 'dart:convert';
 
 class Networking{
   late double lon, lat;
