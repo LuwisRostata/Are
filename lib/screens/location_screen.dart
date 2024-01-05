@@ -4,7 +4,7 @@ import 'package:test_clima_flutter/screens/city_screen.dart';
 import 'package:test_clima_flutter/utilities/constants.dart';
 import 'package:test_clima_flutter/services/weather.dart';
 
-class LocationScreen extends StatefulWidget {
+final class LocationScreen extends StatefulWidget {
   LocationScreen(this.data, {super.key});
   String data;
   @override
