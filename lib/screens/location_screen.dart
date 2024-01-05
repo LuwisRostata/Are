@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:test_clima_flutter/screens/city_screen.dart';
-import 'package:test_clima_flutter/utilities/constants.dart';
 import 'package:test_clima_flutter/services/weather.dart';
 
 class LocationScreen extends StatefulWidget {
