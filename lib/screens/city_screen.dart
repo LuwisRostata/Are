@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:test_clima_flutter/utilities/constants.dart';
 class CityScreen extends StatefulWidget {
   const CityScreen({super.key});
@@ -8,7 +9,21 @@ class CityScreen extends StatefulWidget {
 }
 
 class _CityScreenState extends State<CityScreen> {
-  String newcity = '';
+
+  String newcity = '', newWeath='';
+
+    getWeath() async{
+    String info='';
+    Uri url1 = Uri.parse("https://api.openweathermap.org/data/2.5/weather?q=$newcity&appid=cc5f0621c9c4796b8f0683e23d26dadf&units=metric");
+    Response resp = await get(url1);
+    info= resp.body;
+    if (resp.statusCode <= 299){
+      return info;
+    }
+    else{
+      return 'null';
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +42,7 @@ class _CityScreenState extends State<CityScreen> {
                 alignment: Alignment.topLeft,
                 child: TextButton(
                   onPressed: () {
-                    Navigator.pop(context, newcity);
+                    Navigator.pop(context, 'null');
                   },
                   child: const Icon(
                     Icons.arrow_back_ios,
@@ -63,8 +78,9 @@ class _CityScreenState extends State<CityScreen> {
                 ),
               ),
               TextButton(
-                onPressed: () {
-                  Navigator.pop(context, newcity);
+                onPressed: () async {
+                  newWeath = await getWeath();
+                  Navigator.pop(context, newWeath);
                 },
                 child: const Text(
                   'Get Weather',
