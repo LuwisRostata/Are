@@ -68,7 +68,7 @@ class _CityScreenState extends State<CityScreen> {
                       ),
                       hintText: "Type your desired city",
                       hintStyle: TextStyle(
-                        color: Colors.grey
+                        color: Colors.blueGrey
                       ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -81,6 +81,7 @@ class _CityScreenState extends State<CityScreen> {
                 onPressed: () async {
                   newWeath = await getWeath();
                   Navigator.pop(context, newWeath);
+                  print(newWeath);
                 },
                 child: const Text(
                   'Get Weather',
