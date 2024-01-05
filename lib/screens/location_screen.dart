@@ -4,7 +4,7 @@ import 'package:test_clima_flutter/screens/city_screen.dart';
 import 'package:test_clima_flutter/utilities/constants.dart';
 import 'package:test_clima_flutter/services/weather.dart';
 
-final class LocationScreen extends StatefulWidget {
+class LocationScreen extends StatefulWidget {
   LocationScreen(this.data, {super.key});
   String data;
   @override
@@ -38,13 +38,13 @@ class _LocationScreenState extends State<LocationScreen> {
       UpdateWeath();
       TempT = temp.toStringAsFixed(0) + '°';
       TempIC = WM.getWeatherIcon(id);
-      CityText = WM.getMessage(temp.toInt())+" $city!";
+      CityText = WM.getMessage(temp.toInt())+"\n$city!";
     }
     catch(e){
       // Handle the case where program can't get weather info
       TempT = 'ERROR';
-      TempIC = ' ';
-      CityText = "Error, couldn't find weather info";
+      TempIC = '8';
+      CityText = "Couldn't find weather info";
     }
   }
 
@@ -67,19 +67,43 @@ class _LocationScreenState extends State<LocationScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Row(
+              Padding(
+                padding: EdgeInsets.only(left: 15.0),
+                child: Column(
+                  children: <Widget>[
+                    Image(
+                      image: AssetImage('images/$TempIC.png'),
+                      width: 250,
+                      height: 250,
+                    ),
+                    Text(
+                      TempT,
+                      style: TextStyle(fontSize: 50),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(right: 15.0),
+                child: Text(
+                  CityText,
+                  textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 20),
+                ),
+              ),Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   TextButton(
                     onPressed: () {
-                    setState(() {
-                      info=widget.data;
-                      UpdateUI();
-                    });
+                      setState(() {
+                        info=widget.data;
+                        UpdateUI();
+                      });
                     },
                     child: const Icon(
                       Icons.near_me,
                       size: 50.0,
+                        color: Colors.white
                     ),
                   ),
                   TextButton(
@@ -95,32 +119,10 @@ class _LocationScreenState extends State<LocationScreen> {
                     child: const Icon(
                       Icons.location_city,
                       size: 50.0,
+                      color: Colors.white
                     ),
                   ),
                 ],
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 15.0),
-                child: Row(
-                  children: <Widget>[
-                    Text(
-                      TempT,
-                      style: TextStyle(fontSize: 50),
-                    ),
-                    Text(
-                      TempIC,
-                      style: kConditionTextStyle,
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(right: 15.0),
-                child: Text(
-                  CityText,
-                  textAlign: TextAlign.right,
-                    style: TextStyle(fontSize: 40),
-                ),
               ),
             ],
           ),

@@ -47,6 +47,7 @@ class _CityScreenState extends State<CityScreen> {
                   child: const Icon(
                     Icons.arrow_back_ios,
                     size: 50.0,
+                    color: Colors.blueGrey,
                   ),
                 ),
               ),
@@ -84,7 +85,10 @@ class _CityScreenState extends State<CityScreen> {
                 },
                 child: const Text(
                   'Get Weather',
-                  style: kButtonTextStyle,
+                  style: TextStyle(
+                      color: Colors.blueGrey,
+                    fontSize: 30,
+                  ),
                 ),
               ),
             ],
